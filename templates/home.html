@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            DIGIT RECOGNITION
+        </title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='home.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}">
+        <script type="text/javascript">
+            var i = 0;
+            var txt = 'DIGIT RECOGNIZER';
+            var speed = 50;
+            function typeWriter() {
+                if (i < txt.length) {
+                document.getElementById("demo").innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+                }
+            }
+            function showPreview(event){
+            if(event.target.files.length > 0){
+                var src = URL.createObjectURL(event.target.files[0]);
+                var preview = document.getElementById("file-ip-1-preview");
+                preview.src = src;
+                preview.style.display = "block";
+                }
+            }
+            $(document).ready(function(){
+                // console.log('DIGIT HELLO');
+                typeWriter();
+                showPreview();
+            });
+        </script>
+    </head>
+    <body>
+        <div class="jumbotron text-center" id="demo">
+
+        </div>
+        <!-- File uploader -->
+        <div class="container">
+            <form method="POST" enctype="multipart/form-data" action="/prediction">
+                <div class="center">
+                    <div class="form-input">
+                      <label for="file-ip-1">Upload Image</label>
+                      <input type="file" id="file-ip-1" name="file-ip-1" accept="image/*" onchange="showPreview(event);">
+                      <div class="preview">
+                        <img id="file-ip-1-preview" src="">
+                      </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary btn-lg" value="PREDICTION" id="prediction">
+            </form>
+            <br><br><br><br>
+            <img src="{{image_file}}" style = "height:200px;width:200px;margin-left:480px;">
+            <br><br><br><br>
+            <h1 style="margin-left:450px;">{{pred_text}}</h1>
+        </div>
+        <div>
+        </div>
+    </body>
+</html>
